@@ -53,11 +53,11 @@ find_package(catkin REQUIRED COMPONENTS
 #   Message2.msg
 # )
 
-### Generate services in the 'srv' folder
-#add_service_files(
-#   FILES
-#   GoToPosition.srv
-#)
+## Generate services in the 'srv' folder
+add_service_files(
+  FILES
+  GoToPosition.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -66,11 +66,14 @@ find_package(catkin REQUIRED COMPONENTS
 #   Action2.action
 # )
 
-### Generate added messages and services with any dependencies listed here
-#generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-#)
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+  DEPENDENCIES
+  std_msgs  # Or other packages containing msgs
+)
+
+## To force ROS to compile your C++ code with C++ 11
+add_compile_options(-std=c++11)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
