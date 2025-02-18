@@ -35,5 +35,4 @@
       min_joint_2_angle: 0
       max_joint_2_angle: 1.57
     </rosparam>
-  </node>
 </launch>
