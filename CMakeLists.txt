@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(simple_arm)
 
 ## Add support for C++11, supported in ROS Kinetic and newer
-# add_definitions(-std=c++11)
+add_definitions(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -71,9 +71,6 @@ generate_messages(
   DEPENDENCIES
   std_msgs  # Or other packages containing msgs
 )
-
-## To force ROS to compile your C++ code with C++ 11
-add_compile_options(-std=c++11)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
