@@ -65,7 +65,7 @@ int main(int argc, char** argv)
     // Initialize the look_away node and create a handle to it
     ros::init(argc, argv, "look_away");
     ros::NodeHandle n;
-
+    
     // Define a client service capable of requesting services from safe_move
     client = n.serviceClient<simple_arm::GoToPosition>("/arm_mover/safe_move");
 
