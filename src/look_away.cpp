@@ -21,7 +21,7 @@ void move_arm_center()
 
     // Call the safe_move service and pass the requested joint angles
     if (!client.call(srv))
-        ROS_ERROR(node_name << ": Failed to call service safe_move");
+        ROS_ERROR_STREAM(node_name << ": Failed to call service safe_move");
 }
 
 // This callback function continuously executes and reads the arm joint angles position
