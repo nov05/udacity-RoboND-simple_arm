@@ -12,7 +12,7 @@ ros::ServiceClient client;
 void move_arm_center()
 {
     std::string node_name = ros::this_node::getName();
-    ROS_INFO("%s: Moving the arm to the center", node_name);
+    ROS_INFO("%s: Moving the arm to the center", node_name.c_str());
 
     // Request centered joint angles [1.57, 1.57]
     simple_arm::GoToPosition srv;
@@ -21,7 +21,7 @@ void move_arm_center()
 
     // Call the safe_move service and pass the requested joint angles
     if (!client.call(srv))
-        ROS_ERROR_STREAM("%s: Failed to call service safe_move", node_name);
+        ROS_ERROR("%s: Failed to call service safe_move", node_name.c_str());
 }
 
 // This callback function continuously executes and reads the arm joint angles position
