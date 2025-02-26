@@ -75,7 +75,7 @@ bool handle_safe_move_request(simple_arm::GoToPosition::Request &req,
 int main(int argc, char **argv)
 {
     // Initialize the arm_mover node and create a handle to it
-    node_name = "arm_mover"
+    std::string node_name = "arm_mover";
     ros::init(argc, argv, node_name);
     ros::NodeHandle n;
 
