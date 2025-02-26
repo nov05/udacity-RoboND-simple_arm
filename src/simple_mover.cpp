@@ -4,6 +4,8 @@
 int main(int argc, char** argv)
 {
     // Initialize the simple_mover node and Create a handle
+    // The code from the Udacity course set the node name "arm_mover", the same with the node created by "arm_mover.cpp",
+    //     which caused issues when shutting down the node. I changed the node name here to "simple_mover".  
     ros::init(argc, argv, "simple_mover");
     ros::NodeHandle n;
 
