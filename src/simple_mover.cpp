@@ -3,8 +3,8 @@
 
 int main(int argc, char** argv)
 {
-    // Initialize the arm_mover node and Create a handle
-    ros::init(argc, argv, "simple_mover_arm_mover");
+    // Initialize the simple_mover node and Create a handle
+    ros::init(argc, argv, "simple_mover");
     ros::NodeHandle n;
 
     // Create a publisher that can publish a std_msgs::Float64 message 

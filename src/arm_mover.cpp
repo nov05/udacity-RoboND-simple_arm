@@ -25,28 +25,30 @@ std::vector<float> clamp_at_boundaries(float requested_j1, float requested_j2)
     n2.getParam(node_name + "/max_joint_2_angle", max_j2);
 
     // Check if joint 1 falls in the safe zone, otherwise clamp it
-    if (requested_j1 < min_j1 || requested_j1 > max_j1) {
+    if (requested_j1 < min_j1 || requested_j1 > max_j1)
+    {
         clamped_j1 = std::min(std::max(requested_j1, min_j1), max_j1);
-        ROS_WARN("j1 is out of bounds, valid range (%1.2f,%1.2f), clamping to: %1.2f", min_j1, max_j1, clamped_j1);
+        ROS_WARN("⚠️ j1 is out of bounds, valid range (%1.2f,%1.2f), clamping to: %1.2f", min_j1, max_j1, clamped_j1);
     }
     // Check if joint 2 falls in the safe zone, otherwise clamp it
-    if (requested_j2 < min_j2 || requested_j2 > max_j2) {
+    if (requested_j2 < min_j2 || requested_j2 > max_j2)
+    {
         clamped_j2 = std::min(std::max(requested_j2, min_j2), max_j2);
-        ROS_WARN("j2 is out of bounds, valid range (%1.2f,%1.2f), clamping to: %1.2f", min_j2, max_j2, clamped_j2);
+        ROS_WARN("⚠️ j2 is out of bounds, valid range (%1.2f,%1.2f), clamping to: %1.2f", min_j2, max_j2, clamped_j2);
     }
 
     // Store clamped joint angles in a clamped_data vector
-    std::vector<float> clamped_data = { clamped_j1, clamped_j2 };
+    std::vector<float> clamped_data = {clamped_j1, clamped_j2};
 
     return clamped_data;
 }
 
 // This callback function executes whenever a safe_move service is requested
-bool handle_safe_move_request(simple_arm::GoToPosition::Request& req,
-    simple_arm::GoToPosition::Response& res)
+bool handle_safe_move_request(simple_arm::GoToPosition::Request &req,
+                              simple_arm::GoToPosition::Response &res)
 {
 
-    ROS_INFO("GoToPositionRequest received - j1:%1.2f, j2:%1.2f", (float)req.joint_1, (float)req.joint_2);
+    ROS_INFO("🟢 GoToPositionRequest received - j1:%1.2f, j2:%1.2f", (float)req.joint_1, (float)req.joint_2);
 
     // Check if requested joint angles are in the safe zone, otherwise clamp them
     std::vector<float> joints_angles = clamp_at_boundaries(req.joint_1, req.joint_2);
@@ -64,13 +66,13 @@ bool handle_safe_move_request(simple_arm::GoToPosition::Request& req,
     ros::Duration(3).sleep();
 
     // Return a response message
-    res.msg_feedback = "Joint angles set - j1: " + std::to_string(joints_angles[0]) + " , j2: " + std::to_string(joints_angles[1]);
+    res.msg_feedback = "🟢 Joint angles set - j1: " + std::to_string(joints_angles[0]) + " , j2: " + std::to_string(joints_angles[1]);
     ROS_INFO_STREAM(res.msg_feedback);
 
     return true;
 }
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     // Initialize the arm_mover node and create a handle to it
     ros::init(argc, argv, "arm_mover");
@@ -82,7 +84,7 @@ int main(int argc, char** argv)
 
     // Define a safe_move service with a handle_safe_move_request callback function
     ros::ServiceServer service = n.advertiseService("/arm_mover/safe_move", handle_safe_move_request);
-    ROS_INFO("Ready to send joint commands");
+    ROS_INFO("🟢 Ready to send joint commands");
 
     // Handle ROS communication events
     ros::spin();
