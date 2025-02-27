@@ -14,7 +14,7 @@
   </include>
 
   <!-- Launch Gazebo -->
-  <node name="gazebo" pkg="gazebo_ros" type="gzserver" required="true" output="screen">
+  <node name="gazebo_server" pkg="gazebo_ros" type="gzserver" required="true" output="screen">
     <param name="use_sim_time" value="true" />
   </node>
 
