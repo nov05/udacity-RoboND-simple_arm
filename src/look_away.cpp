@@ -47,7 +47,7 @@ void joint_states_callback(const sensor_msgs::JointState js)
 // This callback function continuously executes and reads the image data
 void look_away_callback(const sensor_msgs::Image img)
 {
-
+    // flag that indicates whether the image is unifrom
     bool uniform_image = true;
 
     // Loop through each pixel in the image and check if its equal to the first one

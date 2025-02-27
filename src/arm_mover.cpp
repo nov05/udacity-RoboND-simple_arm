@@ -15,27 +15,27 @@ std::vector<float> clamp_at_boundaries(float requested_j1, float requested_j2)
     // Get min and max joint parameters, and assigning them to their respective variables
     float min_j1, max_j1, min_j2, max_j2;
     // Assign a new node handle since we have no access to the main one
-    ros::NodeHandle n2;
+    ros::NodeHandle n;
     // Get node name
     std::string node_name = ros::this_node::getName();
     // Get joints min and max parameters
-    n2.getParam(node_name + "/min_joint_1_angle", min_j1);
-    n2.getParam(node_name + "/max_joint_1_angle", max_j1);
-    n2.getParam(node_name + "/min_joint_2_angle", min_j2);
-    n2.getParam(node_name + "/max_joint_2_angle", max_j2);
+    n.getParam(node_name + "/min_joint_1_angle", min_j1);
+    n.getParam(node_name + "/max_joint_1_angle", max_j1);
+    n.getParam(node_name + "/min_joint_2_angle", min_j2);
+    n.getParam(node_name + "/max_joint_2_angle", max_j2);
 
     // Check if joint 1 falls in the safe zone, otherwise clamp it
     if (requested_j1 < min_j1 || requested_j1 > max_j1)
     {
         clamped_j1 = std::min(std::max(requested_j1, min_j1), max_j1);
-        ROS_WARN("%s: Joint angles - j1 is out of bounds, valid range (%1.2f,%1.2f), clamping to: %1.2f",
+        ROS_WARN("%s: Joint angles - j1 is out of bounds, valid range (%1.2f, %1.2f), clamping to: %1.2f",
                  node_name.c_str(), min_j1, max_j1, clamped_j1);
     }
     // Check if joint 2 falls in the safe zone, otherwise clamp it
     if (requested_j2 < min_j2 || requested_j2 > max_j2)
     {
         clamped_j2 = std::min(std::max(requested_j2, min_j2), max_j2);
-        ROS_WARN("%s: Joint angles - j2 is out of bounds, valid range (%1.2f,%1.2f), clamping to: %1.2f",
+        ROS_WARN("%s: Joint angles - j2 is out of bounds, valid range (%1.2f, %1.2f), clamping to: %1.2f",
                  node_name.c_str(), min_j2, max_j2, clamped_j2);
     }
 
@@ -46,11 +46,11 @@ std::vector<float> clamp_at_boundaries(float requested_j1, float requested_j2)
 }
 
 // This callback function executes whenever a safe_move service is requested
-bool handle_safe_move_request(simple_arm::GoToPosition::Request &req,
-                              simple_arm::GoToPosition::Response &res)
+bool safe_move_callback(simple_arm::GoToPosition::Request &req,
+                        simple_arm::GoToPosition::Response &res)
 {
     std::string node_name = ros::this_node::getName();
-    ROS_INFO("%s: GoToPositionRequest received - j1:%1.2f, j2:%1.2f",
+    ROS_INFO("%s: GoToPositionRequest received - j1: %1.2f, j2: %1.2f",
              node_name.c_str(), (float)req.joint_1, (float)req.joint_2);
 
     // Check if requested joint angles are in the safe zone, otherwise clamp them
@@ -87,7 +87,7 @@ int main(int argc, char **argv)
     joint2_pub = n.advertise<std_msgs::Float64>("/simple_arm/joint_2_position_controller/command", 10);
 
     // Define a safe_move service with a handle_safe_move_request callback function
-    ros::ServiceServer service = n.advertiseService("/arm_mover/safe_move", handle_safe_move_request);
+    ros::ServiceServer service = n.advertiseService("/arm_mover/safe_move", safe_move_callback);
     ROS_INFO_STREAM(node_name << ": Ready to send joint commands");
 
     // Handle ROS communication events
