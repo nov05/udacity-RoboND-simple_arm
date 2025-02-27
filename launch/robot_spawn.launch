@@ -13,20 +13,6 @@
     <arg name="debug" value="false" />
   </include>
 
-  <!-- Launch Gazebo -->
-  <node name="gazebo_server" pkg="gazebo_ros" type="gzserver" required="true" output="screen">
-    <param name="use_sim_time" value="true" />
-  </node>
-
-  <!-- Launch Gazebo GUI (optional) -->
-  <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" required="true" output="screen" />
-
-  <!-- Launch controller spawner (automatically terminated when gazebo is closed) -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    required="true" output="screen">
-    <param name="use_sim_time" value="true" />
-  </node>
-
   <!-- spawn a robot in gazebo world -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="-urdf -param robot_description -x 0 -y 0 -z 0 -R 0 -P 0 -Y 0 -model simple_arm" />
